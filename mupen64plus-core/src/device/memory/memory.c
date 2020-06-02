@@ -213,6 +213,9 @@ void apply_mem_mapping(struct memory* mem, const struct mem_mapping* mapping)
     }
 }
 
+/* For paraLLEl-RDP which needs to import RDRAM as a host pointer with potentially 64k of alignment. */
+enum { MB_RDRAM_DRAM_ALIGNMENT_REQUIREMENT = 64 * 1024 };
+
 enum {
     MB_RDRAM_DRAM = 0,
     MB_CART_ROM = MB_RDRAM_DRAM + RDRAM_MAX_SIZE,
@@ -235,7 +238,13 @@ void* init_mem_base(void)
     void* mem_base;
 
     /* First try the full mem base alloc */
-    mem_base = malloc(MB_MAX_SIZE_FULL);
+#ifdef HAVE_PARALLEL_RDP
+    if (posix_memalign(&mem_base, MB_RDRAM_DRAM_ALIGNMENT_REQUIREMENT, MB_MAX_SIZE_FULL) < 0)
+        mem_base = NULL;
+#else
+    mem_base = malloc(MB_MAX_SIZE);
+#endif
+
     if (mem_base == NULL) {
         /* if it failed, try the compressed mem base alloc */
         mem_base = malloc(MB_MAX_SIZE);
