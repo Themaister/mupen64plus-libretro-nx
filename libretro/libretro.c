@@ -1065,7 +1065,7 @@ static void update_variables(bool startup)
        }
 
 #if defined(HAVE_THR_AL) || defined(HAVE_PARALLEL_RDP)
-       if(current_rdp_type == RDP_PLUGIN_ANGRYLION || current_rdp_type == RDP_PLUGIN_PARALLEL)
+       if(current_rdp_type == RDP_PLUGIN_ANGRYLION)
        {
            // We always want frame duping here, the result will be different from GLideN64
            // This is always prefered here!
