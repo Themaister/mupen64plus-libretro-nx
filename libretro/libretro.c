@@ -449,8 +449,8 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 {
     info->geometry.base_width   = retro_screen_width;
     info->geometry.base_height  = retro_screen_height;
-    info->geometry.max_width    = retro_screen_width;
-    info->geometry.max_height   = retro_screen_height;
+    info->geometry.max_width    = retro_screen_width * 4;
+    info->geometry.max_height   = retro_screen_height * 4;
     info->geometry.aspect_ratio = retro_screen_aspect;
     info->timing.fps = vi_expected_refresh_rate_from_tv_standard(ROM_PARAMS.systemtype);
     info->timing.sample_rate = 44100.0;
