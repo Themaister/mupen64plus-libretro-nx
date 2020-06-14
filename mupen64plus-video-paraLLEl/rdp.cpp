@@ -223,7 +223,7 @@ bool init()
 	}
 
 	Quirks quirks;
-	quirks.set_native_texture_lod(true);
+	quirks.set_native_texture_lod(false);
 	frontend->set_quirks(quirks);
 
 	timeline_value = 0;
