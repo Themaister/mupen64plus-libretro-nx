@@ -528,12 +528,6 @@ bool Renderer::init_internal_upscaling_factor(const RendererOptions &options)
 		return false;
 	}
 
-	if (factor != 1 && factor != 2 && factor != 4)
-	{
-		LOGE("Only 1x (native) 2x, and 4x upscaling factors are supported.\n");
-		return false;
-	}
-
 	caps.upscaling = factor;
 
 	if (factor == 1)
@@ -934,8 +928,8 @@ static std::pair<int, int> interpolate_x(const TriangleSetup &setup, int y, bool
 	if (y < scaling * setup.ym)
 		xl = xm;
 
-	int xh_shifted = xh >> 16;
-	int xl_shifted = xl >> 16;
+	int xh_shifted = xh >> 15;
+	int xl_shifted = xl >> 15;
 
 	int xleft, xright;
 	if (flip)
@@ -2146,7 +2140,6 @@ void Renderer::maintain_queues()
 	// If we haven't submitted anything in a while (1.0 ms), it's probably fine to submit again.
 	if (pending_render_passes >= ImplementationConstants::MaxPendingRenderPassesBeforeFlush ||
 	    pending_primitives >= Limits::MaxPrimitives ||
-	    pending_render_passes_upscaled > 0 ||
 	    active_submissions.load(std::memory_order_relaxed) == 0 ||
 	    int64_t(Util::get_current_time_nsecs() - last_submit_ns) > 1000000)
 	{

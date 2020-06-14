@@ -213,7 +213,7 @@ bool init()
 
 	log_cb(RETRO_LOG_INFO, "paraLLEl-RDP: Using RDRAM size of %u bytes.\n", rdram_size);
 	frontend.reset(new CommandProcessor(*device, reinterpret_cast<void *>(aligned_rdram),
-				offset, rdram_size, rdram_size / 2, 0));
+				offset, rdram_size, rdram_size / 2, COMMAND_PROCESSOR_FLAG_UPSCALING_8X_BIT));
 
 	if (!frontend->device_is_supported())
 	{
@@ -221,6 +221,10 @@ bool init()
 		frontend.reset();
 		return false;
 	}
+
+	Quirks quirks;
+	quirks.set_native_texture_lod(true);
+	frontend->set_quirks(quirks);
 
 	timeline_value = 0;
 	pending_timeline_value = 0;

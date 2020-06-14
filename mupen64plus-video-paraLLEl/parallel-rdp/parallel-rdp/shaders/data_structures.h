@@ -33,6 +33,7 @@ const int TRIANGLE_SETUP_SKIP_XFRAC_BIT = 1 << 2;
 const int TRIANGLE_SETUP_INTERLACE_FIELD_BIT = 1 << 3;
 const int TRIANGLE_SETUP_INTERLACE_KEEP_ODD_BIT = 1 << 4;
 const int TRIANGLE_SETUP_DISABLE_UPSCALING_BIT = 1 << 5;
+const int TRIANGLE_SETUP_NATIVE_LOD_BIT = 1 << 6;
 
 const int RASTERIZATION_INTERLACE_FIELD_BIT = 1 << 0;
 const int RASTERIZATION_INTERLACE_KEEP_ODD_BIT = 1 << 1;
@@ -112,8 +113,8 @@ struct SpanSetupMem
 	ivec4 rgba;
 	ivec4 stzw;
 
-	mem_i16x4 xleft;
-	mem_i16x4 xright;
+	mem_u16x4 xleft;
+	mem_u16x4 xright;
 
 	int interpolation_base_x;
 	int start_x;
@@ -129,8 +130,8 @@ struct SpanSetup
 	ivec4 rgba;
 	ivec4 stzw;
 
-	i16x4 xleft;
-	i16x4 xright;
+	u16x4 xleft;
+	u16x4 xright;
 
 	int interpolation_base_x;
 	int start_x;
